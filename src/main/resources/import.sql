@@ -1,5 +1,5 @@
-/* Populate table clientes */
-INSERT INTO clientes (name, lastname, email, created_at)
+/* Populate table clients */
+INSERT INTO clients (name, last_name, email, created_at)
 VALUES ('Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01'),
        ('Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02'),
        ('Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03'),

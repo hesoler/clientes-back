@@ -1,4 +1,4 @@
-package com.apirest.clientes;
+package com.apirest.clients;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.apirest.clientes.models.entity;
+package com.apirest.clients.models.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,14 +11,17 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "clientes", schema = "clientes_db")
-public class Cliente implements Serializable {
+@Table(name = "clients", schema = "clients_db")
+public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String lastname;
+
+    @Column(name = "last_name")
+    private String lastName;
+
     private String email;
 
     @Column(name = "created_at")
