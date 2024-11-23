@@ -1,6 +1,9 @@
 package com.apirest.clients.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,16 +20,28 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @NotNull
     private String name;
 
-    @Column(name = "last_name")
+    @NotBlank
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
     private Date createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
+    }
 
     @Serial
     private static final long serialVersionUID = 1L;

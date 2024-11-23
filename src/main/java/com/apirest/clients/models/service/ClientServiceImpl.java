@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ClientService implements IClientService {
+public class ClientServiceImpl implements IClientService {
 
     @Autowired
     private IClientDAO clienteDAO;
