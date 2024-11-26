@@ -19,8 +19,12 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ClientRestController {
 
+    private final IClientService clientService;
+
     @Autowired
-    private IClientService clientService;
+    public ClientRestController(IClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping("/clientes")
     public List<Client> index() {
