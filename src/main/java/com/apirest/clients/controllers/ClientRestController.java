@@ -62,10 +62,11 @@ public class ClientRestController {
             newClient = clientService.save(client);
         } catch (DataAccessException e) {
             response.put("message", "Error executing query: " + e.getMessage());
-            response.put("error", e.getMostSpecificCause().getMessage());
+            response.put("description", e.getMostSpecificCause().getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ConstraintViolationException e) {
-            response.put("message", e.getConstraintViolations().toString());
+            response.put("message", "Invalid fields or existing email");
+            response.put("description", e.getConstraintViolations().toString());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
