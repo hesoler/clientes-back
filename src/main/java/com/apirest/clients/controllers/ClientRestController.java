@@ -3,13 +3,17 @@ package com.apirest.clients.controllers;
 import com.apirest.clients.models.entity.Client;
 import com.apirest.clients.models.service.IClientService;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +58,25 @@ public class ClientRestController {
     }
 
     @PostMapping("/clientes")
-    public ResponseEntity<?> create(@RequestBody Client client) {
+    public ResponseEntity<?> create(@Valid @RequestBody Client client, BindingResult bindingResult) {
 
         Client newClient;
         Map<String, Object> response = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = new ArrayList<>();
+            for (FieldError error : bindingResult.getFieldErrors())
+                errors.add(error.getField() + ": " + error.getDefaultMessage());
+
+//            List<String> errors = bindingResult.getFieldErrors()
+//                    .stream()
+//                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
+//                    .collect(Collectors.toList());
+
+            response.put("errors", errors);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
         try {
             newClient = clientService.save(client);
         } catch (DataAccessException e) {
@@ -76,15 +95,24 @@ public class ClientRestController {
     }
 
     @PutMapping("/clientes/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Client client) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Client client, BindingResult bindingResult) {
 
         Client findById = clientService.findById(id);
         Client updatedClient;
         Map<String, Object> response = new HashMap<>();
 
-        if (client == null) {
-            response.put("message", "Error: Can not update. Client with ID: " + id + " not found in database");
+        if (findById == null) {
+            response.put("message", "Error executing update: Client with ID: " + id + " was not found in database");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = new ArrayList<>();
+            for (FieldError error : bindingResult.getFieldErrors())
+                errors.add(error.getField() + ": " + error.getDefaultMessage());
+
+            response.put("errors", errors);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         try {

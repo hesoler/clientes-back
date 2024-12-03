@@ -1,9 +1,7 @@
 package com.apirest.clients.models.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +19,7 @@ public class Client implements Serializable {
     private Long id;
 
     @NotBlank
-    @NotNull
+    @Size(min = 3, max = 255)
     private String name;
 
     @NotBlank
@@ -33,8 +31,7 @@ public class Client implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 
