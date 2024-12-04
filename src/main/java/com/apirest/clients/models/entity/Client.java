@@ -1,16 +1,16 @@
 package com.apirest.clients.models.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-@Setter
-@Getter
+@Data
 @Entity
 @Table(name = "clients", schema = "clients_db")
 public class Client implements Serializable {
